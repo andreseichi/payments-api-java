@@ -1,5 +1,6 @@
 package dev.tashiro.payments_api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,9 @@ public class PaymentService {
       throw new RuntimeException("Código de débito já existente!");
 
     paymentRepository.save(payment);
+  }
+
+  public List<Payment> listAll() {
+    return paymentRepository.findAll();
   }
 }

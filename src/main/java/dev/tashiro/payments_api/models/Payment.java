@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -30,7 +33,6 @@ public class Payment {
     this.paymentMethod = paymentDTO.paymentMethod();
     this.cardNumber = paymentDTO.cardNumber().orElse(null);
     this.paymentValue = paymentDTO.paymentValue();
-    this.createdAt = LocalDateTime.now();
   }
 
   @Id
@@ -56,4 +58,18 @@ public class Payment {
 
   @CreationTimestamp
   private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
+
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
+
 }

@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Length;
 
 import dev.tashiro.payments_api.dto.PaymentDTO;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +37,6 @@ public class Payment {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(unique = true)
   private int debitCode;
 
   @Length(min = 11, max = 14)

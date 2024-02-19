@@ -19,15 +19,10 @@ public class PaymentService {
   @Autowired
   private PaymentRepository paymentRepository;
 
-  public void create(PaymentDTO req) {
+  public Payment create(PaymentDTO req) {
     Payment payment = new Payment(req);
 
-    List<Payment> paymentFromDatabase = paymentRepository.findByDebitCode(payment.getDebitCode());
-
-    if (!paymentFromDatabase.isEmpty())
-      throw new RuntimeException("Código de débito já existente!");
-
-    paymentRepository.save(payment);
+    return paymentRepository.save(payment);
   }
 
   public List<Payment> listAll(Integer debitCode, String payerCpfCnpj, String status) {

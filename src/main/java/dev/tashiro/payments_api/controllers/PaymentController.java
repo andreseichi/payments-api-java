@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.tashiro.payments_api.dto.PaymentDTO;
@@ -40,8 +41,11 @@ public class PaymentController {
   }
 
   @GetMapping()
-  public List<Payment> list() {
-    return paymentService.listAll();
+  public List<Payment> list(
+      @RequestParam(required = false) Integer debitCode,
+      @RequestParam(required = false) String payerCpfCnpj,
+      @RequestParam(required = false) String status) {
+    return paymentService.listAll(debitCode, payerCpfCnpj, status);
   }
 
   @PutMapping("/{id}")

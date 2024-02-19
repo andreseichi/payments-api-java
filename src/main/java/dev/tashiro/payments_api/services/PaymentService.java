@@ -22,16 +22,32 @@ public class PaymentService {
   public void create(PaymentDTO req) {
     Payment payment = new Payment(req);
 
-    Optional<Payment> paymentFromDatabase = paymentRepository.findByDebitCode(payment.getDebitCode());
+    List<Payment> paymentFromDatabase = paymentRepository.findByDebitCode(payment.getDebitCode());
 
-    if (paymentFromDatabase.isPresent())
+    if (!paymentFromDatabase.isEmpty())
       throw new RuntimeException("Código de débito já existente!");
 
     paymentRepository.save(payment);
   }
 
-  public List<Payment> listAll() {
-    return paymentRepository.findAll();
+  public List<Payment> listAll(Integer debitCode, String payerCpfCnpj, String status) {
+    if (debitCode != null && payerCpfCnpj != null && status != null)
+      return paymentRepository.findByDebitCodeAndPayerCpfCnpjAndStatus(debitCode, payerCpfCnpj, status);
+    else if (debitCode != null && payerCpfCnpj != null)
+      return paymentRepository.findByDebitCodeAndPayerCpfCnpj(debitCode, payerCpfCnpj);
+    else if (debitCode != null && status != null)
+      return paymentRepository.findByDebitCodeAndStatus(debitCode, status);
+    else if (payerCpfCnpj != null && status != null)
+      return paymentRepository.findByPayerCpfCnpjAndStatus(payerCpfCnpj, status);
+    else if (debitCode != null)
+      return paymentRepository.findByDebitCode(debitCode);
+    else if (payerCpfCnpj != null)
+      return paymentRepository.findByPayerCpfCnpj(payerCpfCnpj);
+    else if (status != null)
+      return paymentRepository.findByStatus(status);
+    else
+      return paymentRepository.findAll();
+
   }
 
   public void update(UUID id, PaymentProcessDTO req) {

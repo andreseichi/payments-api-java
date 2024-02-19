@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.tashiro.payments_api.dto.PaymentDTO;
+import dev.tashiro.payments_api.dto.PaymentProcessDTO;
 import dev.tashiro.payments_api.models.Payment;
+import dev.tashiro.payments_api.models.Status;
 import dev.tashiro.payments_api.repositories.PaymentRepository;
 
 @Service
@@ -30,6 +32,36 @@ public class PaymentService {
 
   public List<Payment> listAll() {
     return paymentRepository.findAll();
+  }
+
+  public void update(UUID id, PaymentProcessDTO req) {
+    Optional<Payment> paymentFromDatabase = paymentRepository.findById(id);
+
+    if (paymentFromDatabase.isEmpty()) {
+      throw new RuntimeException("Pagamento não encontrado!");
+    }
+
+    Payment payment = paymentFromDatabase.get();
+    Status status = req.status();
+
+    if (payment.getStatus().equals("Pendente de Processamento")) {
+      switch (status) {
+        case APPROVED:
+          payment.setStatus("Processado com Sucesso");
+          break;
+        case DENIED:
+          payment.setStatus("Processado com Falha");
+          break;
+        default:
+          throw new RuntimeException("Status inválido!");
+      }
+    } else if (payment.getStatus().equals("Processado com Falha") && status.equals(Status.PENDENT)) {
+      payment.setStatus("Pendente de Processamento");
+    } else {
+      throw new RuntimeException("Pagamento não pode ser atualizado!");
+    }
+
+    paymentRepository.save(payment);
   }
 
   public void deleteById(UUID id) {

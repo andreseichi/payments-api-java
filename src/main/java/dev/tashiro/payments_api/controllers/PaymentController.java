@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.tashiro.payments_api.dto.PaymentDTO;
+import dev.tashiro.payments_api.dto.PaymentProcessDTO;
 import dev.tashiro.payments_api.models.Payment;
 import dev.tashiro.payments_api.services.PaymentService;
 import jakarta.validation.Valid;
@@ -40,6 +42,18 @@ public class PaymentController {
   @GetMapping()
   public List<Payment> list() {
     return paymentService.listAll();
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Object> update(@Valid @RequestBody PaymentProcessDTO paymentProcessDTO,
+      @PathVariable UUID id) {
+    try {
+      paymentService.update(id, paymentProcessDTO);
+
+      return new ResponseEntity<>("OK", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
   }
 
   @DeleteMapping("/{id}")

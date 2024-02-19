@@ -45,7 +45,7 @@ public class PaymentService {
 
   }
 
-  public void update(UUID id, PaymentProcessDTO req) {
+  public Payment update(UUID id, PaymentProcessDTO req) {
     Optional<Payment> paymentFromDatabase = paymentRepository.findById(id);
 
     if (paymentFromDatabase.isEmpty()) {
@@ -72,7 +72,9 @@ public class PaymentService {
       throw new RuntimeException("Pagamento não pode ser atualizado!");
     }
 
-    paymentRepository.save(payment);
+    Payment paymentUpdated = paymentRepository.save(payment);
+
+    return paymentUpdated;
   }
 
   public void deleteById(UUID id) {

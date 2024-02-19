@@ -1,5 +1,6 @@
 package dev.tashiro.payments_api.controllers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,29 +33,32 @@ public class PaymentController {
   @PostMapping()
   public ResponseEntity<Object> create(@Valid @RequestBody PaymentDTO paymentDTO) {
     try {
-      paymentService.create(paymentDTO);
+      Payment newPayment = paymentService.create(paymentDTO);
 
-      return new ResponseEntity<>("OK", HttpStatus.CREATED);
+      return ResponseEntity.status(HttpStatus.CREATED).body(newPayment);
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
   }
 
   @GetMapping()
-  public List<Payment> list(
+  public ResponseEntity<Object> list(
       @RequestParam(required = false) Integer debitCode,
       @RequestParam(required = false) String payerCpfCnpj,
       @RequestParam(required = false) String status) {
-    return paymentService.listAll(debitCode, payerCpfCnpj, status);
+
+    List<Payment> payments = paymentService.listAll(debitCode, payerCpfCnpj, status);
+
+    return ResponseEntity.ok().body(Collections.singletonMap("data", payments));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<Object> update(@Valid @RequestBody PaymentProcessDTO paymentProcessDTO,
       @PathVariable UUID id) {
     try {
-      paymentService.update(id, paymentProcessDTO);
+      Payment paymentUpdated = paymentService.update(id, paymentProcessDTO);
 
-      return new ResponseEntity<>("OK", HttpStatus.OK);
+      return ResponseEntity.ok().body(paymentUpdated);
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }

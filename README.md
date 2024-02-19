@@ -71,7 +71,8 @@ GET /api/v1/payments
                 "cardNumber": "12345678901232456",
                 "paymentValue": 8000,
                 "status": "Pendente de Processamento",
-                "createdAt": "2024-02-19T15:14:16.443218"
+                "createdAt": "2024-02-19T15:14:16.443218",
+                "updatedAt": "2024-02-19T15:14:16.443231"
               },
               {
                 "id": "11784194-6ef0-4038-ad2b-18276b02c401",
@@ -81,7 +82,8 @@ GET /api/v1/payments
                 "cardNumber": "12345678901232456",
                 "paymentValue": 1,
                 "status": "Processado com Sucesso",
-                "createdAt": "2024-02-19T15:31:05.189453"
+                "createdAt": "2024-02-19T15:31:05.189453",
+                "updatedAt": "2024-02-19T15:31:05.189467"
               },
             ]
           }
@@ -120,7 +122,8 @@ GET /api/v1/payments?queryParams
                 "cardNumber": "12345678901232456",
                 "paymentValue": 8000,
                 "status": "Pendente de Processamento",
-                "createdAt": "2024-02-19T15:14:16.443218"
+                "createdAt": "2024-02-19T15:14:16.443218",
+                "updatedAt": "2024-02-19T15:14:16.443231"
               },
               {
                 "id": "11784194-6ef0-4038-ad2b-18276b02c401",
@@ -130,7 +133,8 @@ GET /api/v1/payments?queryParams
                 "cardNumber": "12345678901232456",
                 "paymentValue": 1,
                 "status": "Processado com Sucesso",
-                "createdAt": "2024-02-19T15:31:05.189453"
+                "createdAt": "2024-02-19T15:31:05.189453",
+                "updatedAt": "2024-02-19T15:31:05.189467"
               },
             ]
           }
@@ -167,7 +171,8 @@ PUT /api/v1/payments/{id}
             "cardNumber": "12345678901232456",
             "paymentValue": 1,
             "status": "Processado com Sucesso",
-            "createdAt": "2024-02-19T15:31:05.189453"
+            "createdAt": "2024-02-19T15:31:05.189453",
+            "updatedAt": "2024-02-19T15:31:05.189467"
           }
 
 #

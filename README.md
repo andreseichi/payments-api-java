@@ -188,3 +188,33 @@ DELETE /api/v1/payments/{id}
 ##### Response:
 
 - Response 204
+
+## Rodar o projeto localmente
+
+​
+Clone o projeto
+
+```bash
+  git clone https://github.com/andreseichi/payments-api-java
+```
+
+Abre o projeto
+​
+
+```bash
+  cd payments-api-java/
+```
+
+Faça o build
+
+```bash
+  mvn clean install
+```
+
+Roda a aplicação
+
+```bash
+  mvn spring-boot:run
+```
+
+Importe o json `Insomnia-All.json` com as collections no Insomnia para fazer as requests para a API

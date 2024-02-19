@@ -2,6 +2,7 @@ package dev.tashiro.payments_api.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,25 @@ public class PaymentService {
 
   public List<Payment> listAll() {
     return paymentRepository.findAll();
+  }
+
+  public void deleteById(UUID id) {
+    Optional<Payment> paymentFromDatabase = paymentRepository.findById(id);
+
+    if (paymentFromDatabase.isPresent()) {
+      Payment payment = paymentFromDatabase.get();
+
+      String status = payment.getStatus();
+
+      if (status.equals("Pendente de Processamento")) {
+        paymentRepository.deleteById(id);
+      } else {
+        throw new RuntimeException("Pagamento não pode ser excluído!");
+      }
+
+    } else {
+      throw new RuntimeException("Pagamento não encontrado!");
+    }
+
   }
 }

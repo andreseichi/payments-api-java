@@ -1,11 +1,14 @@
 package dev.tashiro.payments_api.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,17 @@ public class PaymentController {
   @GetMapping()
   public List<Payment> list() {
     return paymentService.listAll();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable UUID id) {
+    try {
+      paymentService.deleteById(id);
+
+      return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
   }
 
 }

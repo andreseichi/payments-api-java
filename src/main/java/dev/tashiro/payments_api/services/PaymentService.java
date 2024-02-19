@@ -12,6 +12,7 @@ import dev.tashiro.payments_api.dto.PaymentProcessDTO;
 import dev.tashiro.payments_api.models.Payment;
 import dev.tashiro.payments_api.models.Status;
 import dev.tashiro.payments_api.repositories.PaymentRepository;
+import dev.tashiro.payments_api.utils.Utils;
 
 @Service
 public class PaymentService {
@@ -26,6 +27,9 @@ public class PaymentService {
   }
 
   public List<Payment> listAll(Integer debitCode, String payerCpfCnpj, String status) {
+    Utils.RemoveEmptyParams(payerCpfCnpj);
+    Utils.RemoveEmptyParams(status);
+
     if (debitCode != null && payerCpfCnpj != null && status != null)
       return paymentRepository.findByDebitCodeAndPayerCpfCnpjAndStatus(debitCode, payerCpfCnpj, status);
     else if (debitCode != null && payerCpfCnpj != null)
